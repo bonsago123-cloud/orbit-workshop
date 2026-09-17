@@ -1,0 +1,45 @@
+{
+  "version": 2,
+  "checks": [
+    {
+      "name": "No cockpit cannot create flight",
+      "result": "PASS"
+    },
+    {
+      "name": "Three collinear engines merge into one 108 kN engine",
+      "result": "PASS"
+    },
+    {
+      "name": "Merged engines share time; deletion splits the chain",
+      "result": "PASS"
+    },
+    {
+      "name": "L-shaped engines do not form a single merged engine",
+      "result": "PASS"
+    },
+    {
+      "name": "Lower lateral thrust produces clockwise-screen negative torque and angular inertia",
+      "result": "PASS"
+    },
+    {
+      "name": "Symmetric forces cancel torque and balanced example can win",
+      "result": "PASS"
+    },
+    {
+      "name": "Seeded random worlds vary, preview and moving collision geometry agree",
+      "result": "PASS"
+    },
+    {
+      "name": "Polygon edge contact collides; rotated rectangles use real corners",
+      "result": "PASS"
+    },
+    {
+      "name": "Actual ship/planet collision ends flight",
+      "result": "PASS"
+    },
+    {
+      "name": "Timeout and disconnected spacecraft reject correctly",
+      "result": "PASS"
+    }
+  ]
+}

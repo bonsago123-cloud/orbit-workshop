@@ -1,0 +1,26 @@
+PASS · 빈 저장값 기본 설계 
+PASS · 손상 저장 복구 
+PASS · 새 항로에서 행성 재생성 
+PASS · 부품 편집 중 행성 유지 
+PASS · 3개 일렬 엔진 → 한 묶음 E1 ×3 · 108kN 시작 (초) 종료 (초) 추진 방향 ↑ 위 → 오른쪽 ↓ 아래 ← 왼쪽
+PASS · 엔진 클릭 시 묶음 전체 방향 전환 
+PASS · 오른쪽 클릭 1칸 삭제 · 엔진 묶음 분리 
+PASS · 조종석 없으면 발사 차단 
+PASS · 1초 내 클릭 10건 → 모듈 10개 22.7ms
+PASS · PC 경계 1366×768 {"width":1366,"height":768,"overflow":false,"clipped":0}
+PASS · PC 경계 1920×1080 {"width":1920,"height":1080,"overflow":false,"clipped":0}
+PASS · 크기 변경 후 비행 유지 
+PASS · 포커스 이탈 정지 
+PASS · 포커스 복귀 재개 
+PASS · 균형 설계 성공 / 30초 이내 {"state":"success","t":15.933333333333069,"x":835.2000000000203,"y":156.70000000002005,"vx":72.00000000000018,"vy":-17.999999999999986,"paused":false,"angle":0,"omega":0,"seed":100,"groups":[{"n":1,"dir":"up","start":0,"end":1.5},{"n":1,"dir":"right","start":3,"end":9},{"n":1,"dir":"right","start":3,"end":9},{"n":1,"dir":"up","start":0,"end":1.5}],"modules":5,"path":239,"particles":42,"launches":1,"wins":1}
+PASS · 성공 효과 
+PASS · 효과 즉시 끄기 
+PASS · 성공 재시작 · 회전 및 현재 판 초기화 · 새 행성 
+PASS · 재접속 보존 
+PASS · 하단 측면 엔진 → 실제 회전 {"state":"flying","t":1.0083333333333322,"x":124.5293853988557,"y":438.5860452194088,"vx":8.80217260865328,"vy":-1.630874426140321,"paused":false,"angle":-0.5579649390243906,"omega":-1.1067073170731703,"seed":100,"groups":[{"n":1,"dir":"right","start":0,"end":3}],"modules":3,"path":15,"particles":0,"launches":2,"wins":1}
+PASS · 실패 상태 도달 failure
+PASS · 실패 재시작 초기화 
+PASS · 검사 범위 변경 기능과 핵심 흐름 검사. 이번 실행에는 10분 연속 검사를 포함하지 않음.
+PASS · 게임 오류 0건 []
+PASS · 검사 종료 2026-09-17T00:37:20.407Z
+GAME_CONSOLE_ERRORS: []

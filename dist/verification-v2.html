@@ -1,0 +1,77 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>궤도 공작소 · 회전 물리 업데이트 검사</title><link rel="icon" href="favicon.svg"><style>body{max-width:1060px;margin:40px auto;padding:0 24px;background:#0c1119;color:#dfeaf0;font:15px Arial;line-height:1.9}a,h2{color:#bbf77a}h2{margin-top:36px;font-size:21px}table{border-collapse:collapse;width:100%;font-size:13px}td,th{border:1px solid #324253;padding:8px;text-align:left}th,.box{background:#17283a}.box,pre{padding:20px;border-radius:8px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#142232;font-size:12px}.table-wrap{overflow:auto}.note{color:#a1b5c6}</style></head><body><a href="./">← 게임으로</a><h1>회전 물리 · 엔진 병합 · 무작위 행성</h1><p><a href="source/">현재 공개 소스 커밋</a> · <a href="qa.html">브라우저 검사 실행</a> · <a href="physics-verification.json">물리 검사 원본</a> · <a href="difficulty-records.json">20회 기록</a></p>
+<h2>반영한 동작</h2><ul><li>같은 방향으로 일렬 연결한 엔진을 하나로 병합합니다. 2개는 72kN, 3개는 108kN입니다. 묶음마다 분사 시간을 공유합니다. 처음 엔진의 시간 설정을 사용하며, L자 연결은 한 묶음이 아닙니다.</li><li>엔진을 클릭할 때마다 묶음 전체의 추진 방향이 90° 바뀝니다. 오른쪽 클릭은 해당 셀의 모듈을 삭제합니다. 중간 셀을 삭제하면 묶음이 나뉩니다.</li><li>조종석 1개와 엔진 1개 이상, 연결된 구조가 아니면 발사 버튼이 비활성화됩니다. 물리 실행 함수도 잘못된 설계를 거부합니다.</li><li>질량중심·관성모멘트·힘의 작용점에 따른 회전을 계산합니다. 엔진도 기체와 함께 회전하며 분사 종료 후 각속도가 유지됩니다. 대칭 추력은 회전력을 상쇄합니다. 중력과 공기저항은 없습니다.</li><li>새 항로 또는 종료 후 다시 설계하기를 누르면 경로 주변에 1~3개 행성이 생성됩니다. 원형에 가까운 모양·다각형·불규칙한 볼록 모양이 있으며 일부는 움직입니다. 생성된 행성은 부품 편집이나 발사 때 바뀌지 않습니다.</li><li>이동 화살표는 발사 직후 방향, 점선은 30초 이동 경로입니다. 경계에서 반사합니다. 실제로 움직이는 다각형과 회전하는 부품 사각형의 충돌을 계산합니다.</li></ul>
+<h2>확인 방법 · 4줄</h2><div class="box">어디로 가나요: 공개 게임 주소<br>무엇을 하나요: ① 부품을 연결하고 엔진 클릭·오른쪽 클릭으로 수정 ② 행성 예고를 보고 발사 ③ 종료 후 다시 설계하기<br>무엇이 보이면 통과: 설계대로 이동·회전하고 30초 안에 승패 표시, 재시작하면 회전·속도·시간이 0으로 돌아가고 새 행성 배치 표시<br>안 될 때: 잘못된 설계는 발사 비활성화, 비행 실패는 충돌·영역 이탈·시간 초과 원인 표시</div>
+<h2>AI와 내 판단 · 3줄</h2><div class="box">AI에게 맡긴 일: 구현, 물리·충돌 계산, 검사와 공개 배포.<br>내가 판단한 일: 모듈 조립 후 자동 비행하는 게임으로 만들고, 엔진 병합·무작위 이동 행성·오른쪽 클릭 삭제·엔진 클릭 회전을 추가하도록 정했다.<br>AI 말을 안 들은 일: 회전이 없는 초기 구현을 그대로 쓰지 않고, 하단 엔진의 측면 추력이 우주선을 회전시키도록 수정을 요청했다.</div>
+<h2>물리·판정 자동 검사</h2><pre>{
+  &quot;version&quot;: 2,
+  &quot;checks&quot;: [
+    {
+      &quot;name&quot;: &quot;No cockpit cannot create flight&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Three collinear engines merge into one 108 kN engine&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Merged engines share time; deletion splits the chain&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;name&quot;: &quot;L-shaped engines do not form a single merged engine&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Lower lateral thrust produces clockwise-screen negative torque and angular inertia&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Symmetric forces cancel torque and balanced example can win&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Seeded random worlds vary, preview and moving collision geometry agree&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Polygon edge contact collides; rotated rectangles use real corners&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Actual ship/planet collision ends flight&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Timeout and disconnected spacecraft reject correctly&quot;,
+      &quot;result&quot;: &quot;PASS&quot;
+    }
+  ]
+}</pre>
+<h2>최신 브라우저 검사</h2><p>두 해상도는 iframe의 실제 viewport 크기로 검사합니다. 포커스 검사는 blur/focus 이벤트를 전달합니다. 회전과 승패 검사는 실제 프레임을 기다려 확인했습니다. 검사 도구에서만 seed=100을 지정해 같은 행성을 재현하며 일반 게임은 매번 무작위입니다.</p><pre>PASS · 빈 저장값 기본 설계 
+PASS · 손상 저장 복구 
+PASS · 새 항로에서 행성 재생성 
+PASS · 부품 편집 중 행성 유지 
+PASS · 3개 일렬 엔진 → 한 묶음 E1 ×3 · 108kN 시작 (초) 종료 (초) 추진 방향 ↑ 위 → 오른쪽 ↓ 아래 ← 왼쪽
+PASS · 엔진 클릭 시 묶음 전체 방향 전환 
+PASS · 오른쪽 클릭 1칸 삭제 · 엔진 묶음 분리 
+PASS · 조종석 없으면 발사 차단 
+PASS · 1초 내 클릭 10건 → 모듈 10개 22.7ms
+PASS · PC 경계 1366×768 {&quot;width&quot;:1366,&quot;height&quot;:768,&quot;overflow&quot;:false,&quot;clipped&quot;:0}
+PASS · PC 경계 1920×1080 {&quot;width&quot;:1920,&quot;height&quot;:1080,&quot;overflow&quot;:false,&quot;clipped&quot;:0}
+PASS · 크기 변경 후 비행 유지 
+PASS · 포커스 이탈 정지 
+PASS · 포커스 복귀 재개 
+PASS · 균형 설계 성공 / 30초 이내 {&quot;state&quot;:&quot;success&quot;,&quot;t&quot;:15.933333333333069,&quot;x&quot;:835.2000000000203,&quot;y&quot;:156.70000000002005,&quot;vx&quot;:72.00000000000018,&quot;vy&quot;:-17.999999999999986,&quot;paused&quot;:false,&quot;angle&quot;:0,&quot;omega&quot;:0,&quot;seed&quot;:100,&quot;groups&quot;:[{&quot;n&quot;:1,&quot;dir&quot;:&quot;up&quot;,&quot;start&quot;:0,&quot;end&quot;:1.5},{&quot;n&quot;:1,&quot;dir&quot;:&quot;right&quot;,&quot;start&quot;:3,&quot;end&quot;:9},{&quot;n&quot;:1,&quot;dir&quot;:&quot;right&quot;,&quot;start&quot;:3,&quot;end&quot;:9},{&quot;n&quot;:1,&quot;dir&quot;:&quot;up&quot;,&quot;start&quot;:0,&quot;end&quot;:1.5}],&quot;modules&quot;:5,&quot;path&quot;:239,&quot;particles&quot;:42,&quot;launches&quot;:1,&quot;wins&quot;:1}
+PASS · 성공 효과 
+PASS · 효과 즉시 끄기 
+PASS · 성공 재시작 · 회전 및 현재 판 초기화 · 새 행성 
+PASS · 재접속 보존 
+PASS · 하단 측면 엔진 → 실제 회전 {&quot;state&quot;:&quot;flying&quot;,&quot;t&quot;:1.0083333333333322,&quot;x&quot;:124.5293853988557,&quot;y&quot;:438.5860452194088,&quot;vx&quot;:8.80217260865328,&quot;vy&quot;:-1.630874426140321,&quot;paused&quot;:false,&quot;angle&quot;:-0.5579649390243906,&quot;omega&quot;:-1.1067073170731703,&quot;seed&quot;:100,&quot;groups&quot;:[{&quot;n&quot;:1,&quot;dir&quot;:&quot;right&quot;,&quot;start&quot;:0,&quot;end&quot;:3}],&quot;modules&quot;:3,&quot;path&quot;:15,&quot;particles&quot;:0,&quot;launches&quot;:2,&quot;wins&quot;:1}
+PASS · 실패 상태 도달 failure
+PASS · 실패 재시작 초기화 
+PASS · 검사 범위 변경 기능과 핵심 흐름 검사. 이번 실행에는 10분 연속 검사를 포함하지 않음.
+PASS · 게임 오류 0건 []
+PASS · 검사 종료 2026-09-17T00:37:20.407Z
+GAME_CONSOLE_ERRORS: []</pre><p class="note">9월 15일의 기존 버전 10분 검사는 <a href="browser-verification-v1.txt">이전 기록</a>입니다. 이번 회전 물리 버전의 10분 실행 통과를 의미하지 않습니다. 현재 검사 도구의 ‘실제 10분 연속 실행 포함’을 선택해 별도로 재검사할 수 있습니다.</p>
+<h2>20회 난이도 비교</h2><p>새 물리 엔진으로 다시 실행한 자동 플레이입니다. 목표 반경만 28에서 48로 바꾸고, 두 묶음에 동일한 10개 행성 seed(100~109)와 동일한 설계 입력을 사용했습니다. 위쪽 엔진 둘의 종료 시간은 두 묶음에서 똑같이 1.30~1.75초, 오른쪽 엔진 둘은 3~9초입니다. 기본 힘 36kN, 시간 간격 1/120초, 제한 시간 30초는 고정입니다.</p><table><tr><th>반경</th><th>성공</th><th>종료 중앙값</th><th>종료 범위</th></tr><tr><td>28</td><td>5/10</td><td>16.22초</td><td>10.02~17.98초</td></tr><tr><td>48</td><td>8/10</td><td>15.92초</td><td>10.02~16.34초</td></tr></table><p>최종 반경 48을 유지합니다. 성공 5/10 → 8/10, 종료 시간 중앙값 16.22 → 15.92초입니다. 더 넓은 도착 범위로 방향·시간 오차에 관대해지면서 행성 충돌 실패는 남습니다.</p><div class="table-wrap"><table><tr><th>묶음</th><th>회</th><th>seed</th><th>반경</th><th>위 분사 종료</th><th>점수</th><th>시간</th><th>결과·원인</th></tr><tr><td>변경 전</td><td>1</td><td>100</td><td>28</td><td>1.30</td><td>0</td><td>17.98</td><td>우주선이 비행 영역을 벗어났습니다.</td></tr><tr><td>변경 전</td><td>2</td><td>101</td><td>28</td><td>1.35</td><td>0</td><td>10.02</td><td>우주선이 행성에 충돌했습니다.</td></tr><tr><td>변경 전</td><td>3</td><td>102</td><td>28</td><td>1.40</td><td>100</td><td>16.42</td><td>조종석이 목표 지점에 도착했습니다.</td></tr><tr><td>변경 전</td><td>4</td><td>103</td><td>28</td><td>1.45</td><td>0</td><td>10.64</td><td>우주선이 행성에 충돌했습니다.</td></tr><tr><td>변경 전</td><td>5</td><td>104</td><td>28</td><td>1.50</td><td>100</td><td>16.21</td><td>조종석이 목표 지점에 도착했습니다.</td></tr><tr><td>변경 전</td><td>6</td><td>105</td><td>28</td><td>1.55</td><td>100</td><td>16.18</td><td>조종석이 목표 지점에 도착했습니다.</td></tr><tr><td>변경 전</td><td>7</td><td>106</td><td>28</td><td>1.60</td><td>100</td><td>16.18</td><td>조종석이 목표 지점에 도착했습니다.</td></tr><tr><td>변경 전</td><td>8</td><td>107</td><td>28</td><td>1.65</td><td>100</td><td>16.23</td><td>조종석이 목표 지점에 도착했습니다.</td></tr><tr><td>변경 전</td><td>9</td><td>108</td><td>28</td><td>1.70</td><td>0</td><td>17.98</td><td>우주선이 비행 영역을 벗어났습니다.</td></tr><tr><td>변경 전</td><td>10</td><td>109</td><td>28</td><td>1.75</td><td>0</td><td>17.98</td><td>우주선이 비행 영역을 벗어났습니다.</td></tr><tr><td>변경 후</td><td>1</td><td>100</td><td>48</td><td>1.30</td><td>100</td><td>16.34</td><td>조종석이 목표 지점에 도착했습니다.</td></tr><tr><td>변경 후</td><td>2</td><td>101</td><td>48</td><td>1.35</td><td>0</td><td>10.02</td><td>우주선이 행성에 충돌했습니다.</td></tr><tr><td>변경 후</td><td>3</td><td>102</td><td>48</td><td>1.40</td><td>100</td><td>16.07</td><td>조종석이 목표 지점에 도착했습니다.</td></tr><tr><td>변경 후</td><td>4</td><td>103</td><td>48</td><td>1.45</td><td>0</td><td>10.64</td><td>우주선이 행성에 충돌했습니다.</td></tr><tr><td>변경 후</td><td>5</td><td>104</td><td>48</td><td>1.50</td><td>100</td><td>15.93</td><td>조종석이 목표 지점에 도착했습니다.</td></tr><tr><td>변경 후</td><td>6</td><td>105</td><td>48</td><td>1.55</td><td>100</td><td>15.90</td><td>조종석이 목표 지점에 도착했습니다.</td></tr><tr><td>변경 후</td><td>7</td><td>106</td><td>48</td><td>1.60</td><td>100</td><td>15.89</td><td>조종석이 목표 지점에 도착했습니다.</td></tr><tr><td>변경 후</td><td>8</td><td>107</td><td>48</td><td>1.65</td><td>100</td><td>15.90</td><td>조종석이 목표 지점에 도착했습니다.</td></tr><tr><td>변경 후</td><td>9</td><td>108</td><td>48</td><td>1.70</td><td>100</td><td>15.94</td><td>조종석이 목표 지점에 도착했습니다.</td></tr><tr><td>변경 후</td><td>10</td><td>109</td><td>48</td><td>1.75</td><td>100</td><td>16.02</td><td>조종석이 목표 지점에 도착했습니다.</td></tr></table></div>
+<h2>저장과 공개 확인</h2><p>설계·누적 기록·효과 설정은 브라우저에 보존합니다. 현재 판 위치·속도·회전·각속도·시간·궤적은 초기화됩니다. 행성 배치는 판마다 새로 생성합니다. 빈 값·손상 저장에서 기본 설계로 복구합니다.</p><p>공개 모드로 배포하며 게임에 개인정보·비밀키·외부 추적 서비스를 넣지 않습니다. 제출 전 새 시크릿 창에서 결과물과 전체 커밋 주소가 열리는지 확인해야 합니다. 배포 성공과 이 접근 검사는 별개의 확인입니다.</p></body></html>
