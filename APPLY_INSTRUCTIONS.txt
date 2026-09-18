@@ -1,0 +1,33 @@
+Orbit Workshop 최종 과제 수정 패키지
+
+이 패키지는 현재 GitHub 커밋 6716c3aba16f279793decddb32f87d15b60f3945 기준으로 만든 교체/추가 파일입니다.
+
+교체할 파일
+- README.md
+- dist/verification.html
+
+추가할 파일
+- verify-difficulty.cjs
+- browser-long-run.mjs
+- dist/difficulty-records-v3.json
+- .github/workflows/submission-verification.yml
+
+적용 순서
+1) 압축을 풀고 위 파일들을 저장소 루트의 같은 경로에 덮어쓰거나 추가합니다.
+2) main 브랜치에 커밋합니다.
+3) GitHub Actions의 submission-verification 실행이 성공했는지 확인합니다.
+4) 성공하면 워크플로가 dist/browser-verification-current.txt를 생성하고 github-actions[bot] noreply 계정으로 자동 커밋합니다.
+5) 그 자동 커밋의 40자리 full SHA가 들어간 commit URL을 최종 소스 주소로 제출합니다.
+6) Vercel이 그 최종 커밋을 배포한 뒤 공개 결과물 URL을 제출합니다.
+
+워크플로가 push 권한 오류로 실패할 때만 확인
+GitHub 저장소 Settings → Actions → General → Workflow permissions에서 GitHub Actions가 contents write를 사용할 수 있어야 합니다.
+
+최신 난이도 비교 결과
+- 같은 seed 0~9, 같은 설계, 폭풍 난이도 하나만 변경
+- 보통 ×3: 성공 2/10, 중앙값 9.4833초, 범위 7.5083~24.4667초
+- 어려움 ×6: 성공 1/10, 중앙값 9.4833초, 범위 7.5083~20.6333초
+- 최종 기본값: 보통 ×3
+
+중요
+기존 dist/difficulty-records.json과 verification-v2.html은 역사 자료로만 남깁니다. 최신 과제 증빙은 difficulty-records-v3.json과 browser-verification-current.txt입니다.

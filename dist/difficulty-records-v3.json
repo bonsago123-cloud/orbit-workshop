@@ -1,0 +1,256 @@
+{
+  "version": 3,
+  "method": "현재 최종 물리에서 동일한 10개 seed(0~9)와 동일한 설계를 사용하고 폭풍 난이도 하나만 보통 ×3에서 어려움 ×6으로 변경.",
+  "fixed": {
+    "goalRadius": 24,
+    "force": 36,
+    "timeLimit": 30,
+    "dt": 0.008333333333333333,
+    "seeds": "0~9",
+    "design": {
+      "upEngines": "0~1.2초",
+      "rightEngines": "1.6~7.6초",
+      "modules": "same Orbit.example() geometry"
+    }
+  },
+  "changedOnly": {
+    "parameter": "storm difficulty multiplier",
+    "before": "normal ×3",
+    "after": "hard ×6"
+  },
+  "records": [
+    {
+      "group": "before",
+      "trial": 1,
+      "seed": 0,
+      "difficulty": "normal",
+      "stormMultiplier": 3,
+      "result": "failure",
+      "time": 7.925,
+      "reason": "우주선이 행성에 충돌했습니다."
+    },
+    {
+      "group": "before",
+      "trial": 2,
+      "seed": 1,
+      "difficulty": "normal",
+      "stormMultiplier": 3,
+      "result": "failure",
+      "time": 10.5917,
+      "reason": "우주선이 행성에 충돌했습니다."
+    },
+    {
+      "group": "before",
+      "trial": 3,
+      "seed": 2,
+      "difficulty": "normal",
+      "stormMultiplier": 3,
+      "result": "success",
+      "time": 17.6833,
+      "reason": "조종석이 목표 지점에 도착했습니다."
+    },
+    {
+      "group": "before",
+      "trial": 4,
+      "seed": 3,
+      "difficulty": "normal",
+      "stormMultiplier": 3,
+      "result": "failure",
+      "time": 11.4917,
+      "reason": "우주선이 행성에 충돌했습니다."
+    },
+    {
+      "group": "before",
+      "trial": 5,
+      "seed": 4,
+      "difficulty": "normal",
+      "stormMultiplier": 3,
+      "result": "failure",
+      "time": 7.8583,
+      "reason": "우주선이 행성에 충돌했습니다."
+    },
+    {
+      "group": "before",
+      "trial": 6,
+      "seed": 5,
+      "difficulty": "normal",
+      "stormMultiplier": 3,
+      "result": "failure",
+      "time": 24.4667,
+      "reason": "우주선이 비행 영역을 벗어났습니다."
+    },
+    {
+      "group": "before",
+      "trial": 7,
+      "seed": 6,
+      "difficulty": "normal",
+      "stormMultiplier": 3,
+      "result": "failure",
+      "time": 8.375,
+      "reason": "우주선이 행성에 충돌했습니다."
+    },
+    {
+      "group": "before",
+      "trial": 8,
+      "seed": 7,
+      "difficulty": "normal",
+      "stormMultiplier": 3,
+      "result": "success",
+      "time": 16.6667,
+      "reason": "조종석이 목표 지점에 도착했습니다."
+    },
+    {
+      "group": "before",
+      "trial": 9,
+      "seed": 8,
+      "difficulty": "normal",
+      "stormMultiplier": 3,
+      "result": "failure",
+      "time": 7.6083,
+      "reason": "우주선이 행성에 충돌했습니다."
+    },
+    {
+      "group": "before",
+      "trial": 10,
+      "seed": 9,
+      "difficulty": "normal",
+      "stormMultiplier": 3,
+      "result": "failure",
+      "time": 7.5083,
+      "reason": "우주선이 행성에 충돌했습니다."
+    },
+    {
+      "group": "after",
+      "trial": 1,
+      "seed": 0,
+      "difficulty": "hard",
+      "stormMultiplier": 6,
+      "result": "failure",
+      "time": 7.925,
+      "reason": "우주선이 행성에 충돌했습니다."
+    },
+    {
+      "group": "after",
+      "trial": 2,
+      "seed": 1,
+      "difficulty": "hard",
+      "stormMultiplier": 6,
+      "result": "failure",
+      "time": 10.5917,
+      "reason": "우주선이 행성에 충돌했습니다."
+    },
+    {
+      "group": "after",
+      "trial": 3,
+      "seed": 2,
+      "difficulty": "hard",
+      "stormMultiplier": 6,
+      "result": "success",
+      "time": 17.1667,
+      "reason": "조종석이 목표 지점에 도착했습니다."
+    },
+    {
+      "group": "after",
+      "trial": 4,
+      "seed": 3,
+      "difficulty": "hard",
+      "stormMultiplier": 6,
+      "result": "failure",
+      "time": 11.325,
+      "reason": "우주선이 행성에 충돌했습니다."
+    },
+    {
+      "group": "after",
+      "trial": 5,
+      "seed": 4,
+      "difficulty": "hard",
+      "stormMultiplier": 6,
+      "result": "failure",
+      "time": 7.8583,
+      "reason": "우주선이 행성에 충돌했습니다."
+    },
+    {
+      "group": "after",
+      "trial": 6,
+      "seed": 5,
+      "difficulty": "hard",
+      "stormMultiplier": 6,
+      "result": "failure",
+      "time": 20.6333,
+      "reason": "우주선이 비행 영역을 벗어났습니다."
+    },
+    {
+      "group": "after",
+      "trial": 7,
+      "seed": 6,
+      "difficulty": "hard",
+      "stormMultiplier": 6,
+      "result": "failure",
+      "time": 8.375,
+      "reason": "우주선이 행성에 충돌했습니다."
+    },
+    {
+      "group": "after",
+      "trial": 8,
+      "seed": 7,
+      "difficulty": "hard",
+      "stormMultiplier": 6,
+      "result": "failure",
+      "time": 16.4667,
+      "reason": "우주선이 비행 영역을 벗어났습니다."
+    },
+    {
+      "group": "after",
+      "trial": 9,
+      "seed": 8,
+      "difficulty": "hard",
+      "stormMultiplier": 6,
+      "result": "failure",
+      "time": 7.6083,
+      "reason": "우주선이 행성에 충돌했습니다."
+    },
+    {
+      "group": "after",
+      "trial": 10,
+      "seed": 9,
+      "difficulty": "hard",
+      "stormMultiplier": 6,
+      "result": "failure",
+      "time": 7.5083,
+      "reason": "우주선이 행성에 충돌했습니다."
+    }
+  ],
+  "summaries": [
+    {
+      "difficulty": "normal",
+      "stormMultiplier": 3,
+      "wins": 2,
+      "failures": 8,
+      "medianSeconds": 9.4833,
+      "minSeconds": 7.5083,
+      "maxSeconds": 24.4667,
+      "failureReasons": {
+        "우주선이 행성에 충돌했습니다.": 7,
+        "우주선이 비행 영역을 벗어났습니다.": 1
+      }
+    },
+    {
+      "difficulty": "hard",
+      "stormMultiplier": 6,
+      "wins": 1,
+      "failures": 9,
+      "medianSeconds": 9.4833,
+      "minSeconds": 7.5083,
+      "maxSeconds": 20.6333,
+      "failureReasons": {
+        "우주선이 행성에 충돌했습니다.": 7,
+        "우주선이 비행 영역을 벗어났습니다.": 2
+      }
+    }
+  ],
+  "finalChoice": {
+    "difficulty": "normal",
+    "stormMultiplier": 3,
+    "reason": "보통은 10회 중 성공 2회, 어려움은 1회였다. 두 묶음 모두 반복 실패 원인은 주로 행성 충돌이었고, 어려움에서 성공 수가 더 줄어 최종 기본 난이도는 보통 ×3으로 유지했다."
+  }
+}
