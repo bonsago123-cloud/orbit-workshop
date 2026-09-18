@@ -1,44 +1,48 @@
 {
-  "version": 2,
+  "version": 3,
   "checks": [
     {
-      "name": "No cockpit cannot create flight",
+      "name": "조종석 없이는 발사 불가",
       "result": "PASS"
     },
     {
-      "name": "Three collinear engines merge into one 108 kN engine",
+      "name": "동체 없이는 발사 불가",
       "result": "PASS"
     },
     {
-      "name": "Merged engines share time; deletion splits the chain",
+      "name": "일렬 엔진 3개는 108 kN 한 묶음",
       "result": "PASS"
     },
     {
-      "name": "L-shaped engines do not form a single merged engine",
+      "name": "병합 엔진 시간 공유와 삭제 후 분리",
       "result": "PASS"
     },
     {
-      "name": "Lower lateral thrust produces clockwise-screen negative torque and angular inertia",
+      "name": "L자 엔진은 한 묶음이 아님",
       "result": "PASS"
     },
     {
-      "name": "Symmetric forces cancel torque and balanced example can win",
+      "name": "십자키 전체 이동과 경계 이탈 취소",
       "result": "PASS"
     },
     {
-      "name": "Seeded random worlds vary, preview and moving collision geometry agree",
+      "name": "질량중심에서 벗어난 측면 추력은 회전 관성 생성",
       "result": "PASS"
     },
     {
-      "name": "Polygon edge contact collides; rotated rectangles use real corners",
+      "name": "대칭 예시 설계는 자체 토크가 0",
       "result": "PASS"
     },
     {
-      "name": "Actual ship/planet collision ends flight",
+      "name": "목표·행성·폭풍은 seed 기반 무작위 생성",
       "result": "PASS"
     },
     {
-      "name": "Timeout and disconnected spacecraft reject correctly",
+      "name": "목표 판정은 각 맵의 무작위 목표를 사용",
+      "result": "PASS"
+    },
+    {
+      "name": "행성 충돌과 30초 종료 판정",
       "result": "PASS"
     }
   ]

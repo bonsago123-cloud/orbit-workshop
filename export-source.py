@@ -4,7 +4,7 @@ root=pathlib.Path(__file__).resolve().parent
 work=root/'.source-export'; public=root/'dist'; repo=work/'checkout'
 if work.exists(): shutil.rmtree(work)
 repo.mkdir(parents=True)
-for name in ['README.md','package.json','preview-server.cjs','verify-core.cjs','verify-environment.cjs','export-source.py','build-report.py']:
+for name in ['README.md','package.json','preview-server.cjs','verify-core.cjs','verify-environment.cjs','export-source.py','build-report.py','vercel.json']:
  shutil.copy2(root/name,repo/name)
 (repo/'dist').mkdir()
 for file in public.iterdir():
