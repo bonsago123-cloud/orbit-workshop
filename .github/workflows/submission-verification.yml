@@ -1,0 +1,74 @@
+name: submission-verification
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'dist/browser-verification-current.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Core and difficulty verification
+        run: |
+          node verify-core.cjs
+          node verify-environment.cjs
+          node verify-difficulty.cjs
+
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Start static server
+        run: |
+          python3 -m http.server 4173 --directory dist > /tmp/orbit-http.log 2>&1 &
+          echo $! > /tmp/orbit-http.pid
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/orbit-http.log
+          exit 1
+
+      - name: Real 10-minute browser verification
+        env:
+          ORBIT_URL: http://127.0.0.1:4173/
+        run: node browser-long-run.mjs
+
+      - name: Upload verification record
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orbit-browser-verification-${{ github.sha }}
+          path: |
+            dist/browser-verification-current.txt
+            dist/difficulty-records-v3.json
+          if-no-files-found: warn
+
+      - name: Commit current verification record
+        if: success() && github.ref == 'refs/heads/main'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dist/browser-verification-current.txt dist/difficulty-records-v3.json
+          if git diff --cached --quiet; then
+            echo 'Verification files already current.'
+          else
+            git commit -m 'record final submission verification'
+            git push
+          fi
