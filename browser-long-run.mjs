@@ -72,12 +72,30 @@ try {
 
   await page.click('#example');
   await page.click('[data-tool="body"]');
-  const beforeInputs=(await snap()).modules;
-  const rapid=await page.evaluate(()=>{
-    const empty=[...document.querySelectorAll('#grid .cell')].filter(b=>!b.textContent).slice(0,10);
-    const t=performance.now(); empty.forEach(b=>b.dispatchEvent(new MouseEvent('click',{bubbles:true}))); return {count:empty.length,ms:performance.now()-t};
-  });
-  s=await snap();
+const beforeInputs=(await snap()).modules;
+const rapid=await page.evaluate(()=>{
+  const t=performance.now();
+  let count=0;
+
+  for(let i=0;i<10;i++){
+    const empty=[...document.querySelectorAll('#grid .cell')]
+      .find(b=>!b.textContent && !b.disabled);
+
+    if(!empty) break;
+
+    empty.dispatchEvent(
+      new MouseEvent('click',{bubbles:true})
+    );
+
+    count++;
+  }
+
+  return {
+    count,
+    ms:performance.now()-t
+  };
+});
+s=await snap();
   assert(rapid.count===10 && rapid.ms<1000 && s.modules===beforeInputs+10,'C06/C12 1초 내 핵심 입력 10건이 정확히 10회 반영',JSON.stringify({ms:+rapid.ms.toFixed(1),increase:s.modules-beforeInputs}));
 
   await page.click('#example');
